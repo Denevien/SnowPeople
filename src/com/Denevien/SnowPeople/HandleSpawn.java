@@ -1,7 +1,6 @@
 package com.Denevien.SnowPeople;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -33,4 +32,11 @@ public class HandleSpawn implements Listener{
             loc.getWorld().spawnEntity(loc,EntityType.SNOWMAN);
         }
 	}
+    
+    @EventHandler(ignoreCancelled = true)
+    public void onEntityBlockForm(EntityBlockFormEvent event){
+        if(event.getEntity() instanceof Snowman){
+            event.setCancelled(true);
+        }
+    }
 }
