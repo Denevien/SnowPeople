@@ -1,13 +1,15 @@
 package com.Denevien.SnowPeople;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowman;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.block.EntityBlockFormEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 
 public class HandleSpawn implements Listener{
     public SnowPeople plugin;
@@ -17,16 +19,18 @@ public class HandleSpawn implements Listener{
 	}
     
     @EventHandler(ignoreCancelled = true)
-    public void onCreatureSpawn(CreatureSpawnEvent event) {
+    public void onEntitySpawn(EntitySpawnEvent event) {
         Entity e = event.getEntity();
-        if (e.getWorld() != Bukkit.getWorlds().get(0)) {
-            return;
-        }
-        if (e instanceof HumanEntity) {
-            return;
-        }
         Location loc = event.getLocation();
-        Entity man = loc.getWorld().spawnEntity(loc,EntityType.SNOWMAN);
-        e.remove();
+        if(loc.getChunk().getEntities().length > 5){
+            Entity[] entities = loc.getChunk().getEntities();
+            event.setCancelled(true);
+            for(int i=30;i<entities.length;i++){
+                entities[i].remove();
+            }
+        }else if(!(e instanceof Player || e instanceof Snowman)) {
+            event.setCancelled(true);
+            loc.getWorld().spawnEntity(loc,EntityType.SNOWMAN);
+        }
 	}
 }
