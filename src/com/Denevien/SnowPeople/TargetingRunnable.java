@@ -27,8 +27,11 @@ public class TargetingRunnable implements Runnable{
                 List<Entity> mobs = player.getNearbyEntities(32, 32, 32);
                 for(Entity mob : mobs){
                     if(mob instanceof Snowman){
-                        Snowman snowman = (Snowman)mob;
-                        snowman.setTarget(player);
+                        ApplicableRegionSet mobLocation = worldguard.getGlobalRegionManager().get(mob.getLocation().getWorld()).getApplicableRegions(mob.getLocation());
+                        if(mobLocation.allows(plugin.ANGRY_SNOWMEN)){
+                            Snowman snowman = (Snowman)mob;
+                            snowman.setTarget(player);
+                        }
                     }
                 }
             }

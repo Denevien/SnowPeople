@@ -1,3 +1,4 @@
 name: SnowPeople
 main: com.Denevien.SnowPeople.SnowPeople
 version: 1.1
+depend: [WGCustomFlags]
